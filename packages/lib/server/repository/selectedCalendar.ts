@@ -399,10 +399,11 @@ export class SelectedCalendarRepository {
   }
 
   static async setErrorInWatching({ id, error }: { id: string; error: string }) {
+    const calendar = await SelectedCalendarRepository.findById(id);
     await SelectedCalendarRepository.updateById(id, {
       error,
       lastErrorAt: new Date(),
-      watchAttempts: { increment: 1 },
+      watchAttempts: (calendar?.watchAttempts ?? 0) + 1,
     });
   }
 
@@ -410,7 +411,7 @@ export class SelectedCalendarRepository {
     await SelectedCalendarRepository.updateById(id, {
       error,
       lastErrorAt: new Date(),
-      unwatchAttempts: { increment: 1 },
+      unwatchAttempts: (calendar?.watchAttempts ?? 0) + 1,
     });
   }
 
