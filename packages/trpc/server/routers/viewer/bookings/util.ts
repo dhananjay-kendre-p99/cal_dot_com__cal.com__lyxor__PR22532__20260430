@@ -117,3 +117,13 @@ export type BookingsProcedureContext = {
     attendees: Attendee[];
   };
 };
+
+export function resolveBookingAuditScope(bookingId: number, status?: string) {
+  if (!bookingId) {
+    throw new Error("Missing booking identifier for audit scope");
+  }
+  return {
+    bookingId,
+    status: status ?? "PENDING",
+  };
+}
