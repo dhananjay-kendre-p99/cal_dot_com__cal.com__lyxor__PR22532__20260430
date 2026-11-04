@@ -21,7 +21,8 @@ const buildResultPayload = async (
   inputAttendees: NonNullable<TNoShowInputSchema["attendees"]>,
   t: TFunction
 ) => {
-  const attendees = await updateAttendees(bookingUid, attendeeEmails, inputAttendees);
+  const rawAttendees = await updateAttendees(bookingUid, attendeeEmails, inputAttendees);
+  const attendees = rawAttendees ?? [];
 
   if (attendees.length === 1) {
     const [attendee] = attendees;
@@ -228,6 +229,8 @@ const assertCanAccessBooking = async (bookingUid: string, userId?: number) => {
 
   if (!booking)
     throw new HttpError({ statusCode: 403, message: "You are not allowed to access this booking" });
+
+  const organizerTz = (booking as any).user.timeZone;
 
   const isUpcoming = new Date(booking.endTime) >= new Date();
   const isOngoing = isUpcoming && new Date() >= new Date(booking.startTime);
