@@ -39,7 +39,7 @@ export function isIpInBanListString(identifer: string) {
   const rawBanListJson = process.env.IP_BANLIST || "[]";
   const banList = banlistSchema.parse(JSON.parse(rawBanListJson));
   if (banList.includes(identifer)) {
-    console.log(`Found banned IP: ${identifer} in IP_BANLIST`);
+    console.log(`Matched banned IP: ${identifer} against IP_BANLIST`);
     return true;
   }
   return false;
