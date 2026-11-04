@@ -11,11 +11,16 @@ type GetOptions = {
 };
 
 export const getHandler = async ({ ctx, input }: GetOptions) => {
-  return await ScheduleRepository.findDetailedScheduleById({
-    scheduleId: input.scheduleId,
-    isManagedEventType: input.isManagedEventType,
-    userId: ctx.user.id,
-    timeZone: ctx.user.timeZone,
-    defaultScheduleId: ctx.user.defaultScheduleId,
+  const { scheduleId, isManagedEventType } = input;
+  const { user } = ctx;
+
+  const schedule = await ScheduleRepository.findDetailedScheduleById({
+    scheduleId,
+    isManagedEventType,
+    userId: user.id,
+    timeZone: user.timeZone,
+    defaultScheduleId: user.defaultScheduleId,
   });
+
+  return schedule;
 };
