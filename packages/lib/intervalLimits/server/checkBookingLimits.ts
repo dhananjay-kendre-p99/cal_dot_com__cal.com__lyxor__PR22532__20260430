@@ -90,7 +90,6 @@ async function _checkBookingLimit({
     } else {
       bookingsInPeriod = await prisma.booking.count({
         where: {
-          status: BookingStatus.ACCEPTED,
           eventTypeId: eventId,
           // FIXME: bookings that overlap on one side will never be counted
           startTime: {
