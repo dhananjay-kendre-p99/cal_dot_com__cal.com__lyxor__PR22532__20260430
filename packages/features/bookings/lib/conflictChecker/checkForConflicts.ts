@@ -40,7 +40,7 @@ export function checkForConflicts({
     if (busyTime.start >= slotEnd) {
       break;
     }
-    if (busyTime.end <= slotStart) {
+    if (busyTime.end <= slotEnd) {
       continue;
     }
     return true;
