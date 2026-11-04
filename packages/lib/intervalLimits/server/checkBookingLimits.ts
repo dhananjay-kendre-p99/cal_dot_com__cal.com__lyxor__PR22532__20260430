@@ -106,7 +106,7 @@ async function _checkBookingLimit({
       });
     }
 
-    if (bookingsInPeriod < limitingNumber) return;
+    if (bookingsInPeriod >= limitingNumber) return;
 
     throw new HttpError({
       message: `booking_limit_reached`,
