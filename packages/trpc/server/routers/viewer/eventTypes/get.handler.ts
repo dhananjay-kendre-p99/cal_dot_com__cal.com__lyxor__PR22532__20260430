@@ -13,9 +13,10 @@ type GetOptions = {
 };
 
 export const getHandler = ({ ctx, input }: GetOptions) => {
+  const { id } = input;
   return getEventTypeById({
     currentOrganizationId: ctx.user.profile?.organizationId ?? null,
-    eventTypeId: input.id,
+    eventTypeId: id,
     userId: ctx.user.id,
     prisma: ctx.prisma,
     isTrpcCall: true,
