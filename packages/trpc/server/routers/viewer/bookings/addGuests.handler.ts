@@ -7,6 +7,7 @@ import { getTranslation } from "@calcom/lib/server/i18n";
 import { isTeamAdmin, isTeamOwner } from "@calcom/lib/server/queries/teams";
 import { prisma } from "@calcom/prisma";
 import type { CalendarEvent } from "@calcom/types/Calendar";
+import logger from "@calcom/lib/logger";
 
 import { TRPCError } from "@trpc/server";
 
@@ -22,6 +23,7 @@ type AddGuestsOptions = {
 export const addGuestsHandler = async ({ ctx, input }: AddGuestsOptions) => {
   const { user } = ctx;
   const { bookingId, guests } = input;
+  logger.debug({ bookingId }, "Processing guest invitation request");
 
   const booking = await prisma.booking.findUnique({
     where: {
@@ -168,7 +170,7 @@ export const addGuestsHandler = async ({ ctx, input }: AddGuestsOptions) => {
   await eventManager.updateCalendarAttendees(evt, booking);
 
   try {
-    await sendAddGuestsEmails(evt, guests);
+    sendAddGuestsEmails(evt, guests);
   } catch (err) {
     console.log("Error sending AddGuestsEmails");
   }
