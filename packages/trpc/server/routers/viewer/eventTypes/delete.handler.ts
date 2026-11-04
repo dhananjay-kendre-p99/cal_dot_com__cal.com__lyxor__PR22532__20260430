@@ -11,21 +11,24 @@ type DeleteOptions = {
 };
 
 export const deleteHandler = async ({ ctx: _ctx, input }: DeleteOptions) => {
-  const { id } = input;
+  const targetId = input.id;
 
   await prisma.eventTypeCustomInput.deleteMany({
     where: {
-      eventTypeId: id,
+      eventTypeId: targetId,
     },
   });
 
-  await prisma.eventType.delete({
+  const deletedEvent = await prisma.eventType.delete({
     where: {
-      id,
+      id: targetId,
+    },
+    select: {
+      id: true,
     },
   });
 
   return {
-    id,
+    id: deletedEvent.id,
   };
 };
