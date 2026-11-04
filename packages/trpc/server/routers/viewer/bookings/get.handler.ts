@@ -39,6 +39,7 @@ export const getHandler = async ({ ctx, input }: GetOptions) => {
   // for orderBy, but we don't use a unique column in our orderBy
   const take = input.limit;
   const skip = input.offset;
+  logger.debug({ status: input.filters.status, limit: input.limit }, "Retrieving user bookings list");
   const { prisma, user } = ctx;
   const defaultStatus = "upcoming";
   const bookingListingByStatus = [input.filters.status || defaultStatus];
