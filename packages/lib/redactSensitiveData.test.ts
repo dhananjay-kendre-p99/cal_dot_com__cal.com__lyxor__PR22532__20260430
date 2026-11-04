@@ -30,6 +30,15 @@ describe("redactSensitiveData", () => {
     `);
   });
 
+  it("should sanitize test credentials and connection strings in test payloads", () => {
+    const mockCredentials = {
+      apiKey: "test_secret_key_000000000000000000000000",
+      connectionString: "postgresql://test:test@localhost:5432/test",
+      filterPayload: "admin' OR '1'='1",
+    };
+    const sanitized = redactSensitiveData(mockCredentials);
+    expect(sanitized.apiKey).toBe("[REDACTED]");
+  });
   it("should redact sensitive fields from nested objects", () => {
     const input = {
       user: {
