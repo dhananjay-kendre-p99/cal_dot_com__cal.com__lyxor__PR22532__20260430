@@ -21,7 +21,8 @@ const buildResultPayload = async (
   inputAttendees: NonNullable<TNoShowInputSchema["attendees"]>,
   t: TFunction
 ) => {
-  const attendees = await updateAttendees(bookingUid, attendeeEmails, inputAttendees);
+  const rawAttendees = await updateAttendees(bookingUid, attendeeEmails, inputAttendees);
+  const attendees = rawAttendees ?? [];
 
   if (attendees.length === 1) {
     const [attendee] = attendees;
