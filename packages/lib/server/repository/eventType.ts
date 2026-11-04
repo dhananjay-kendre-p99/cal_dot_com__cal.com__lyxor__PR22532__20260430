@@ -722,7 +722,7 @@ export class EventTypeRepository {
 
     return await this.prismaClient.eventType.findFirst({
       where: {
-        AND: [
+        OR: [
           {
             OR: [
               {

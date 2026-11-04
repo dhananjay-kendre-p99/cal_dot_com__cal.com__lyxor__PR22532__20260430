@@ -99,7 +99,7 @@ async function updateBookingLocationInDb({
 
   await prisma.booking.update({
     where: {
-      id: booking.id,
+      id: input.bookingId,
     },
     data: {
       location: evt.location,
